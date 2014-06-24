@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/templates/detail.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="selectedTourId" value="#{tourController.selectedTourId}" />
+		<f:event type="preRenderView"
+			listener="#{tourController.setTourById()}" />
+		<!-- <f:event type="preRenderView"
+			listener="#{orderController.checkHotelExists()}" /> -->
+	</f:metadata>
+
+	<ui:define name="content">
+
+		<h:form id="tourForm"
+			rendered="#{tourController.selectedTour != null}">
+			<p:panel styleClass="registrationForm" header="Tour">
+				<h:graphicImage
+					value="/resources/images/#{tourController.selectedTour.hotel.name.replace(' ', '_')}.jpg"
+					alt="image not available" style="width:228px; max-height:150px" />
+
+				<h:panelGrid id="tourPanel" columns="2">
+
+					<h:outputText value="Country" />
+					<h:outputText value="#{tourController.selectedTour.hotel.city.country.name}" />
+
+					<h:outputText value="City" />
+					<h:outputText value="#{tourController.selectedTour.hotel.city.name}" />
+
+					<h:outputText value="Hotel" />
+					<h:outputText value="#{tourController.selectedTour.hotel.name}" />
+
+					<h:outputText value="Stars" />
+					<h:outputText value="#{tourController.selectedTour.hotel.stars}" />
+
+					<h:outputLabel value="Departue Date" />
+					<h:outputText value="#{tourController.selectedTour.departueDate}">
+						<f:convertDateTime type="date" pattern="dd/mm/yyyy" />
+					</h:outputText>
+
+					<h:outputLabel value="Number of nights" />
+					<h:outputText value="#{tourController.selectedTour.numberOfNights}" />
+					
+					<h:outputLabel value="TRoom type" />
+					<h:outputText value="#{tourController.selectedTour.typeOfRoom}" />
+					
+
+					<h:outputLabel value="Food type" />
+					<h:outputText value="#{tourController.selectedTour.typeOfFood}" />
+					
+					<h:outputLabel value="Adults" />
+					<h:outputText value="#{tourController.selectedTour.maxNumberOfAdults}" />
+					
+					<h:outputLabel value="Max children" />
+					<h:outputText value="#{tourController.selectedTour.maxNumberOfChildren}" />
+					
+					<h:outputLabel value="Price" />
+					<h:outputText value="#{tourController.selectedTour.price}" />
+
+				</h:panelGrid>
+				<p:commandButton id="submitButton" value="Submit"
+					action="cart.xhtml?faces-redirect=true"
+					actionListener="#{cartController.addTour(tourController.selectedTour.id)}" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

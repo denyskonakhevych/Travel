@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/detail.xhtml">
+
+	<h:head>
+		<h:outputStylesheet library="css" name="screen.css" />
+	</h:head>
+
+	<ui:define name="content">
+		<h:form id="tourForm" rendered="#{authorizationController.isAdmin}">
+			<p:growl id="growl" />
+			<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+				<p:panel header="Tours" style="max-width:72%;overflow-y:scroll">
+					<p:dataTable id="tourTable" value="#{tourAdminController.tours}"
+						var="tour" selectionMode="single"
+						selection="#{tourAdminController.selectedTour}" paginator="true"
+						paginatorPosition="top" rows="10" rowKey="#{tour.id}">
+
+						<p:ajax event="rowSelect"
+							listener="#{tourAdminController.selectTour}"
+							update=":tourForm:tourPanelGrid :tourForm:removeTour" />
+
+						<p:column headerText="Country">
+							<h:outputText value="#{tour.hotel.city.country.name}" />
+						</p:column>
+
+						<p:column headerText="City">
+							<h:outputText value="#{tour.hotel.city.name}" />
+						</p:column>
+
+						<p:column headerText="Hotel">
+							<h:outputText value="#{tour.hotel.name}" />
+						</p:column>
+
+						<p:column headerText="Stars">
+							<h:outputText value="#{tour.hotel.stars}" />
+						</p:column>
+
+						<p:column headerText="Departue Date">
+							<h:outputText value="#{tour.departueDate}">
+								<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Departue city">
+							<h:outputText value="#{tour.departueFrom.name}" />
+						</p:column>
+
+						<p:column headerText="Number of nights">
+							<h:outputText value="#{tour.numberOfNights}" />
+						</p:column>
+
+						<p:column headerText="Room type">
+							<h:outputText value="#{tour.typeOfRoom}" />
+						</p:column>
+
+						<p:column headerText="Food type">
+							<h:outputText value="#{tour.typeOfFood}" />
+						</p:column>
+
+						<p:column headerText="Max adults">
+							<h:outputText value="#{tour.maxNumberOfAdults}" />
+						</p:column>
+
+						<p:column headerText="Max children">
+							<h:outputText value="#{tour.maxNumberOfChildren}" />
+						</p:column>
+
+						<p:column headerText="Price">
+							<h:outputText value="#{tour.price}" />
+						</p:column>
+
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<h:panelGroup>
+					<p:panel header="Tour Form" style="max-width:72%;">
+
+						<h:panelGrid id="tourPanelGrid" columns="2" cellpadding="2"
+							cellspacing="2">
+
+							<p:outputLabel value="Hotel" />
+							<p:selectOneMenu
+								value="#{tourAdminController.tour.hotel.name}"
+								required="true"
+								requiredMessage="The hotel field should not be blank."
+								>
+								<f:selectItem
+									itemValue="#{tourAdminController.tour.hotel.name}"
+									itemLabel="#{tourAdminController.tour.hotel.name}" />
+								<f:selectItems value="#{tourAdminController.hotels}" var="hotel"
+									itemValue="#{hotel.name}" itemLabel="#{hotel.name}" />
+									<!-- <f:converter converterId="com.epam.traveling.view.converters.HotelConverter" /> -->
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Departue city" />
+							<p:selectOneMenu
+								value="#{tourAdminController.tour.departueFrom.name}"
+								required="true"
+								requiredMessage="The hotel field should not be blank.">
+								<f:selectItem
+									itemValue="#{tourAdminController.selectedTour.departueFrom.name}"
+									itemLabel="#{tourAdminController.selectedTour.departueFrom.name}" />
+								<f:selectItems value="#{cityController.cities}" var="city"
+									itemValue="#{city.name}" itemLabel="#{city.name}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Departue date" />
+							<p:calendar value="#{tourAdminController.tour.departueDate}"
+								widgetVar="calwidget" mindate="calwidget.today()" readonlyInput="true"
+								pattern="dd/MM/yyyy">
+								<f:validator
+									validatorId="com.epam.traveling.view.validators.DateValidator" />
+							</p:calendar>
+
+							<p:outputLabel value="Number of nights" />
+							<p:spinner id="numberOfNights"
+								value="#{tourAdminController.tour.numberOfNights}"
+								min="1" max="28" onkeypress="return false"
+								required="true"
+								requiredMessage="This field should not be blank." />
+
+							<p:outputLabel value="Room type" />
+							<p:selectOneMenu
+								value="#{tourAdminController.tour.typeOfRoom}"
+								required="true"
+								requiredMessage="The hotel field should not be blank.">
+								<f:selectItem itemValue="" itemLabel="Select" />
+								<f:selectItem itemValue="SV" itemLabel="SV" />
+								<f:selectItem itemValue="STD" itemLabel="STD" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Food type" />
+							<p:selectOneMenu
+								value="#{tourAdminController.tour.typeOfFood}"
+								required="true"
+								requiredMessage="The hotel field should not be blank.">
+								<f:selectItem itemValue="" itemLabel="Select" />
+								<f:selectItem itemValue="ST" itemLabel="ST" />
+								<f:selectItem itemValue="ALL" itemLabel="ALL" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Max adults" />
+							<p:spinner id="numberOfAdults"
+								value="#{tourAdminController.tour.maxNumberOfAdults}"
+								min="1" max="20" onkeypress="return false"
+								required="true"
+								requiredMessage="This field should not be blank." />
+
+							<p:outputLabel value="Max children" />
+							<p:spinner id="numberOfChildren"
+								value="#{tourAdminController.tour.maxNumberOfChildren}"
+								min="0" max="20" onkeypress="return false"
+								required="true"
+								requiredMessage="This field should not be blank." />
+
+							<p:outputLabel value="Price" />
+							<!-- <p:inputText value="#{tourAdminController.selectedTour.price}">
+								<f:validateRegex pattern="([0-9]{1,7},[0-9]{0,2})" />
+								<f:convertNumber type="number" /> 
+							</p:inputText> -->
+							<p:spinner id="price"
+								value="#{tourAdminController.tour.price}" min="0.01"
+								max="10000000" stepFactor="0.01"
+								required="true"
+								requiredMessage="This field should not be blank.">
+								<f:validator
+									validatorId="com.epam.traveling.view.validators.PriceValidator" />
+							</p:spinner>
+						</h:panelGrid>
+					</p:panel>
+					<h:panelGroup>
+						<p:commandButton id="newTour"
+							action="#{tourAdminController.initTour}" value="New"
+							update="tourPanelGrid tourTable removeTour" />
+						<p:commandButton id="saveArticle"
+							action="#{tourAdminController.saveTour}" value="Save"
+							update="tourPanelGrid tourTable growl">
+							<f:param name="saveTour" value="true" />
+						</p:commandButton>
+						<p:commandButton id="removeTour"
+							disabled="#{tourAdminController.selectedTour == null}"
+							action="#{tourAdminController.removeTour}" value="Remove"
+							update="tourPanelGrid tourTable @this" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

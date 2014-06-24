@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:carousel value="#{tourController.tours}" headerText="#{i18n['main.content.hots']}"
+		var="tour" autoPlayInterval="2000" effect="fade" circular="true"
+		numVisible="5" itemStyle="width: 184px; height: 150px">
+
+			<h:outputLink value="tour.xhtml">
+				<h:graphicImage value="/resources/images/#{tour.hotel.name.replace(' ', '_')}.jpg"
+					alt="image not available" style="width:184px;height:120px" />
+				<f:param name="selectedTourId" value="#{tour.id}" />
+			</h:outputLink>
+			<br/>
+			<h:outputText value="#{tour.hotel.name} - #{tour.price}" />
+	</p:carousel>
+</ui:composition>

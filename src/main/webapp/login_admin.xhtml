@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/detail.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<h:form id="loginDialog">
+			<h:message for="loginDialog"/>
+			<p:growl id="growl" showDetail="true" />
+			<h:panelGrid columns="3" cellpadding="5">
+				<p:outputLabel for="email" value="Email:" />
+				<p:inputText id="email"
+					value="#{authorizationController.emailValue}" 
+					required="true"
+					requiredMessage="The email should not be blank." 
+					label="email" />
+				<h:message for="email"/>
+
+				<p:outputLabel for="password" value="Password:" />
+				<p:password id="password"
+					value="#{authorizationController.passwordValue}" 
+					required="true"
+					requiredMessage="The password should not be blank." 
+					label="password" />
+				<h:message for="password"/>
+
+				<f:facet name="footer">
+					<p:commandButton value="Login" update="loginDialog growl"
+						action="#"
+						actionListener="#{authorizationController.loginAnalitic}" />
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

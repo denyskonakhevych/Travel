@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+	<application>
+		<message-bundle>resources.application</message-bundle>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>en</supported-locale>
+			<supported-locale>ru</supported-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>i18n.messages</base-name>
+			<var>i18n</var>
+		</resource-bundle>
+
+		<managed-bean>
+			<managed-bean-name>currentDate</managed-bean-name>
+			<managed-bean-class>java.util.Date</managed-bean-class>
+			<managed-bean-scope>request</managed-bean-scope>
+		</managed-bean>
+		<!-- <managed-bean>
+			<managed-bean-name>cartController</managed-bean-name>
+			<managed-bean-class>com.epam.traveling.web.CartController</managed-bean-class>
+			<managed-bean-scope>session</managed-bean-scope>
+			<managed-property>
+				<property-name>authorizationController</property-name>
+				<value>#{authorizationController}</value>
+			</managed-property>
+		</managed-bean> -->
+	</application>
+
+</faces-config>

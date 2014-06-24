@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/main_page.xhtml">
+
+	<ui:define name="hots">
+		<ui:include src="hots.xhtml" />
+	</ui:define>
+	<ui:define name="menu">
+		<!-- <ui:include src="tour_finder.xhtml" /> -->
+	</ui:define>
+	<ui:define name="content">
+		<h:panelGroup width="100%" >
+			<ui:include src="countries.xhtml" />
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>

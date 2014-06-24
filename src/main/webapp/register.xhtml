@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/detail.xhtml">
+
+	<h:head>
+		<h:outputStylesheet library="css" name="admin.css" />
+	</h:head>
+
+	<ui:define name="top">
+		<h1>Hotels</h1>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="registrationForm">
+			<p:growl id="growl" />
+			<p:panel header="Registration">	
+				<h:message for="registrationForm" style="color:red" />			
+				<h:panelGrid columns="3" cellpadding="2"
+					cellspacing="2">
+
+					<p:outputLabel value="Email Address" for="emailInput"/>
+					<p:inputText id="emailInput" value="#{registerController.user.email}"
+						required="true" 
+						requiredMessage="The email should not be blank." 
+						title="Email Address">
+						<f:validator
+							validatorId="com.epam.traveling.view.validators.EmailValidator" />
+					</p:inputText>
+					<h:message for="emailInput" style="color:red" />
+
+					<p:outputLabel value="Password" for="passwordInput"/>
+					<p:password id="passwordInput" value="#{registerController.user.password}"
+						feedback="false"
+						match="repeatPasswordInput"
+						required="true"
+						requiredMessage="The password should not be blank.">
+						<f:validator
+							validatorId="com.epam.traveling.view.validators.PasswordValidator" />
+					</p:password>
+					<h:message for="passwordInput" style="color:red" />
+					
+					<p:outputLabel value="Repeat password" for="repeatPasswordInput"/>
+					<p:password id="repeatPasswordInput"
+						value="#{registerController.user.password}"
+						feedback="false"
+						
+						required="true"
+						requiredMessage="This field should not be blank.">
+					</p:password>
+					<h:message for="repeatPasswordInput" style="color:red" />
+
+					<p:outputLabel value="First name" for="firstNameInput"/>
+					<p:inputText id="firstNameInput" value="#{registerController.user.firstName}"
+						required="true"
+						requiredMessage="The first name should not be blank."
+						styleClass="inputTextWidth" />
+					<h:message for="firstNameInput" style="color:red" />
+						
+					<p:outputLabel value="Second name" for="secondNameInput"/>
+					<p:inputText id="secondNameInput" value="#{registerController.user.secondName}"
+						required="true"
+						requiredMessage="The second name should not be blank."
+						styleClass="inputTextWidth" />
+					<h:message for="secondNameInput" style="color:red" />
+
+					<p:outputLabel value="Phone number" for="phoneInput"/>
+					<p:inputMask id="phoneInput" value="#{registerController.user.phoneNumber}" mask="(999) 999-99-99"
+						required="true"
+						requiredMessage="The phone number should not be blank."/>
+					<h:message for="phoneInput" style="color:red" />
+
+					<p:outputLabel value="Gender" />
+					<p:selectOneRadio  id="genderInput" value="#{registerController.user.gender}">
+						<f:selectItem itemValue="male" itemLabel="Male" />
+						<f:selectItem itemValue="female" itemLabel="Female" />
+					</p:selectOneRadio>
+					<h:outputLabel value="" />
+
+					<p:outputLabel value="Address" />
+					<p:inputTextarea id="addressInput" value="#{registerController.user.address}"
+						styleClass="inputTextAreaWidthHeight" />
+					<h:outputLabel value="" />
+				</h:panelGrid>
+				<!-- <p:captcha label="Captcha" language="tr" theme="white" /> -->
+				
+				<p:commandButton value="Register" update="registrationForm"
+					actionListener="#{registerController.registerUser}"
+					action="#" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

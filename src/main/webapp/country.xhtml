@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/templates/detail.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:viewParam name="countryId"
+			value="#{countryController.selectedCountry.id}" />
+		<f:event type="preRenderView"
+			listener="#{countryController.setCountryById}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<p:panel style="width:730px">
+			<h:graphicImage
+				value="/resources/images/#{countryController.selectedCountry.name}.jpg"
+				alt="image not available" style="width:700px; height:330px" />
+			<h:panelGrid columns="2"
+				rendered="#{countryController.selectedCountry != null}">
+
+				<!-- <h:outputText value="Id" />
+			<h:outputText value="#{countryController.selectedCountry.id}" /> -->
+
+				<h:outputText value="Name" />
+				<h:outputText value="#{countryController.selectedCountry.name}" />
+
+				<h:outputText value="Description" />
+				<h:outputText
+					value="#{countryController.selectedCountry.description}" />
+
+				<h:outputText value="Climate" />
+				<h:outputText value="#{countryController.selectedCountry.climate}" />
+			</h:panelGrid>
+		</p:panel>
+	</ui:define>
+</ui:composition>

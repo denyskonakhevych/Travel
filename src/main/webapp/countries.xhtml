@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:carousel value="#{countryController.countries}"
+		headerText="#{i18n['main.content.countries']}" var="country"
+		autoPlayInterval="1000" effect="easeInStrong" circular="true" rows="1"
+		style="position: block; left: 50%; margin-left: -350px;"
+		itemStyle="width:700px; max-height:550px; border: 0px">
+		<h:panelGroup>
+			<h:form>
+				<h:outputLink value="country.xhtml">
+					<h:graphicImage value="/resources/images/#{country.name}.jpg"
+						alt="image not available" style="width:700px; height:330px" />
+					<f:param name="countryId" value="#{country.id}" />
+				</h:outputLink>
+			</h:form>
+			<p:carousel value="#{cityController.findByCountryName(country.name)}"
+				headerText="#{country.name}" var="city" autoPlayInterval="5000"
+				effect="easeInStrong" circular="true" rows="3" style="width:100%; "
+				itemStyle="width:228px; height:150px">
+				<h:panelGroup>
+					<h:graphicImage
+						value="/resources/images/#{city.name.replace(' ', '_')}.jpg"
+						title="#{city.name}" alt="image not available"
+						style="width:228px; max-height:120px" />
+					<h:outputText value="#{city.name}" />
+				</h:panelGroup>
+			</p:carousel>
+		</h:panelGroup>
+	</p:carousel>
+</ui:composition>

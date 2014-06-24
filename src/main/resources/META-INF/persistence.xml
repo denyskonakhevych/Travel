@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+		http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="pu1">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>com.epam.traveling.entities.Analitic</class>
+		<class>com.epam.traveling.entities.User</class>
+		<class>com.epam.traveling.entities.Booking</class>
+		<class>com.epam.traveling.entities.Country</class>
+		<class>com.epam.traveling.entities.Hotel</class>
+		<class>com.epam.traveling.entities.Person</class>
+		<class>com.epam.traveling.entities.Tour</class>
+		<class>com.epam.traveling.entities.City</class>
+
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:mydb"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql://localhost//mydb"/> -->
+			<property name="javax.persistence.jdbc.user" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.show_sql" value = "true" />
+            <property name="hibernate.connection.useUnicode" value="true" />
+			<property name="hibernate.connection.characterEncoding" value="UTF-8" />
+            
+			<!-- <property name="openjpa.RuntimeUnenhancedClasses" value="supported" />
+			<property name="openjpa.Log" value="DefaultLevel=WARN, Runtime=INFO, Tool=INFO, SQL=TRACE" />
+			<property name="openjpa.jdbc.TransactionIsolation" value="read-uncommitted" />
+			<property name="openjpa.LockManager" value="none" /> -->
+		</properties>
+
+	</persistence-unit>
+</persistence>

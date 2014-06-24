@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/detail.xhtml">
+
+	<ui:define name="content">
+		<h:form style="max-width: 98%; overflow-y: scroll">
+			<p:dataTable value="#{tourController.tours}" var="tour"
+				emptyMessage="No hotels found with given criteria"
+				widgetVar="tourTable" rows="10" paginator="true"
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Quick search:" />
+						<p:inputText id="globalFilter" onkeyup="tourTable.filter()"
+							style="width:150px;left:30px]" />
+					</p:outputPanel>
+				</f:facet>
+
+				<p:column filterBy="#{tour.hotel.city.country.name}"
+					headerText="Country"
+					filterOptions="#{tourController.countryOptions}"
+					filterMatchMode="exact">
+					<h:outputText value="#{tour.hotel.city.country.name}" />
+				</p:column>
+
+				<p:column filterBy="#{tour.hotel.city.name}" headerText="City"
+					filterOptions="#{tourController.cityOptions}"
+					filterMatchMode="exact">
+					<h:outputText value="#{tour.hotel.city.name}" />
+				</p:column>
+
+				<p:column filterBy="#{tour.hotel.name}" headerText="Hotel"
+					filterOptions="#{tourController.hotelOptions}"
+					filterMatchMode="exact">
+					<h:outputText value="#{tour.hotel.name}" />
+				</p:column>
+
+				<p:column filterBy="#{tour.hotel.stars}" headerText="Stars"
+					filterOptions="#{tourController.starOptions}"
+					filterMatchMode="exact">
+					<h:outputText value="#{tour.hotel.stars}" />
+				</p:column>
+
+				<p:column headerText="Departue Date">
+					<h:outputText value="#{tour.departueDate}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Departue From">
+					<h:outputText value="#{tour.departueFrom.name}" />
+				</p:column>
+
+				<p:column headerText="Number of nights">
+					<h:outputText value="#{tour.numberOfNights}" />
+				</p:column>
+
+				<p:column filterBy="#{tour.typeOfRoom}" headerText="Room type"
+					filterMatchMode="startsWith"
+					filterOptions="#{tourController.roomOptions}">
+					<h:outputText value="#{tour.typeOfRoom}" />
+				</p:column>
+
+				<p:column filterBy="#{tour.typeOfFood}" headerText="Food type"
+					filterMatchMode="startsWith"
+					filterOptions="#{tourController.foodOptions}">
+					<h:outputText value="#{tour.typeOfFood}" />
+				</p:column>
+
+				<p:column headerText="Max adults">
+					<h:outputText value="#{tour.maxNumberOfAdults}" />
+				</p:column>
+
+				<p:column headerText="Max children">
+					<h:outputText value="#{tour.maxNumberOfChildren}" />
+				</p:column>
+
+				<p:column headerText="Price">
+					<h:outputText value="#{tour.price}" />
+				</p:column>
+
+				<p:column headerText="">
+					<h:link value="View" outcome="tour.xhtml?faces-redirect=true">
+						<f:param name="selectedTourId" value="#{tour.id}" />
+					</h:link>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

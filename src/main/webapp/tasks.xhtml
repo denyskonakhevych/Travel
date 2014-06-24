@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/detail.xhtml">
+
+	<ui:define name="content">
+		<h:form id="taskForm" rendered="#{authorizationController.isLogedIn}">
+			<p:dataTable var="booking" value="#{tasksController.bookings}" style="max-width:945px">
+				<p:column headerText="Id">
+					<h:outputText value="#{booking.id}" />
+				</p:column>
+
+				<p:column headerText="Ordered By">
+					<h:outputText
+						value="#{booking.orderedBy.firstName.concat(' ').concat(booking.orderedBy.secondName)}" />
+				</p:column>
+				
+				<p:column headerText="Telephone">
+					<h:outputText
+						value="#{booking.orderedBy.phoneNumber}" />
+				</p:column>
+
+				<p:column headerText="Price">
+					<h:outputText value="#{booking.totalPrice}" />
+				</p:column>
+
+				<p:column headerText="Tours">
+					<p:dataTable var="tour" value="#{booking.tours}">
+						<p:column headerText="Hotel">
+							<h:outputText value="#{tour.hotel.name}" />
+						</p:column>
+					</p:dataTable>
+				</p:column>
+
+				<p:column headerText="Status">
+					<h:outputText value="#{booking.status}" />
+				</p:column>
+
+				<p:column headerText="Actions">
+					
+					<h:commandLink value="Complete" rendered="#{booking.status != 'comleted'}"
+						disabled="#{booking.status != 'submited'}"
+						actionListener="#{tasksController.complete(booking.id)}" >
+						<f:ajax render=":taskForm"/>
+					</h:commandLink>
+					<br/>
+					<h:commandLink value="Reject" rendered="#{booking.status != 'comleted'}"
+						disabled="#{booking.status != 'submited'}"
+						actionListener="#{tasksController.reject(booking.id)}" >
+						<f:ajax render=":taskForm"/>
+					</h:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

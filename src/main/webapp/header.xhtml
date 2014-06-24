@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:outputStylesheet library="css" name="screen.css" />
+	<div>
+		<div>
+			<div
+				style="float: left; height: 120px; vertical-align: top; padding-top: 0px; padding-bottom: 0px;">
+				<h1 style="vertical-align: top; vertical-align: top;">
+					<h:outputText value="Traveling" />
+				</h1>
+			</div>
+
+			<h:outputText
+				value="#{authorizationController.isLogedIn ? i18n['auth.welcome.reg'].concat(authorizationController.person.firstName).concat(' ').concat(authorizationController.person.secondName) : i18n['auth.welcome.unreg']}" />
+			<div style="float: right">
+				<h:form>
+					<!-- <h:outputLink value="javascript:void(0)" onclick="dlg.show();"
+						title="login" rendered="#{!authorizationController.isLogedIn}"> -->
+					<h:outputLink value="javascript:void(0)" onclick="dlg.show();"
+						title="login" rendered="#{!authorizationController.isLogedIn}">
+						#{i18n['auth.login']}
+			</h:outputLink>
+					<br />
+
+					<h:outputLink value="register.xhtml" title="Cart"
+						rendered="#{!authorizationController.isLogedIn}">
+				#{i18n['auth.register']}
+			</h:outputLink>
+
+					<!-- <p:growl id="growl" showDetail="true" /> -->
+
+					<p:dialog id="loginDialog" header="loginDialog" widgetVar="dlg"
+						resizable="false">
+						<h:message for="loginDialog" style="color:red" />
+						<h:panelGrid columns="3" cellpadding="5">
+							<h:outputLabel for="email" value="#{i18n['auth.email']}" />
+							<p:inputText id="email"
+								value="#{authorizationController.emailValue}" required="true"
+								label="email" />
+							<h:message for="email" style="color:red" />
+
+							<h:outputLabel for="password" value="#{i18n['auth.password']}" />
+							<p:password id="password"
+								value="#{authorizationController.passwordValue}" required="true"
+								label="password" />
+							<h:message for="password" style="color:red" />
+
+							<f:facet name="footer">
+								<p:commandButton value="Login" update="loginDialog"
+									actionListener="#{authorizationController.loginUser}"
+									oncomplete="handleLoginRequest(xhr, status, args)" />
+								<p:commandButton value="Cancel" oncomplete="dlg.hide()" />
+							</f:facet>
+						</h:panelGrid>
+					</p:dialog>
+				</h:form>
+
+				<script type="text/javascript">
+					function handleLoginRequest(xhr, status, args) {
+						if (args.validationFailed || !args.loggedIn) {
+							dlg.show();
+						} else {
+							dlg.hide();
+							$('#loginLink').fadeOut();
+							/* alert('Welcome'); */
+							refresh(10);
+						}
+					}
+
+					function refresh(timeoutPeriod) {
+						refresh = setTimeout(function() {
+							window.location.reload(true);
+						}, timeoutPeriod);
+					}
+				</script>
+				<h:form>
+					<h:commandLink value="#{i18n['auth.logout']}" action="#"
+						rendered="#{authorizationController.isLogedIn}"
+						actionListener="#{authorizationController.logOut()}" />
+				</h:form>
+
+				<h:form>
+					<br />
+					<h:commandLink value="en"
+						actionListener="#{localeBean.setLanguage('en')}" />
+					<br />
+					<h:commandLink value="ru"
+						actionListener="#{localeBean.setLanguage('ru')}" />
+				</h:form>
+			</div>
+		</div>
+		<div>
+			<h:form style="position: relative; left: 100px; top: 60px; display: inline-block">
+				<p:tabMenu activeIndex="#{param.i}" style="color: black;width:100%">
+					<p:menuitem value="#{i18n['menu.main']}"
+						outcome="main.xhtml?faces-redirect=true" style="color: black">
+						<f:param name="i" value="0" />
+					</p:menuitem>
+					<p:menuitem value="#{i18n['menu.find']}"
+						outcome="search.xhtml?faces-redirect=true" style="color: black">
+						<f:param name="i" value="1" />
+					</p:menuitem>
+					<p:menuitem value="#{i18n['menu.cart']}" outcome="cart.xhtml"
+						style="color: black">
+						<f:param name="i" value="2" />
+					</p:menuitem>
+					<!-- <p:menuitem value="#{i18n['menu.tasks']}" outcome="tasks.xhtml"
+						rendered="#{authorizationController.isAdmin}" style="color: black">
+						<f:param name="i" value="3" />
+					</p:menuitem>
+					<p:menuitem value="#{i18n['auth.logout']}"
+						action="#{authorizationController.logOut()}"
+						rendered="#{authorizationController.isLogedIn}"
+						style="color: black">
+						<f:param name="i" value="4" />
+					</p:menuitem>
+					<p:menuitem value="#{i18n['menu.orders']}" outcome="orders.xhtml"
+						rendered="#{authorizationController.isLogedIn}"
+						style="color: black">
+						<f:param name="i" value="5" />
+					</p:menuitem> -->
+				</p:tabMenu>
+			</h:form>
+		</div>
+	</div>
+</ui:composition>
